@@ -9,7 +9,7 @@
     <meta name="description" content="Neon Admin Panel"/>
     <meta name="author" content=""/>
 
-    <link rel="icon" href="assets/images/favicon.ico">
+    <link rel="icon" href="assets/images/favicon1.png">
 
     <title>Copywriterr - Members Area</title>
 
@@ -48,6 +48,22 @@
             <header class="logo-env">
 
 
+                <!-- logo collapse icon -->
+                <div class="sidebar-collapse">
+                    <a href="#" class="sidebar-collapse-icon">
+                        <!-- add class "with-animation" if you want sidebar to have animation during expanding/collapsing transition -->
+                        <i class="entypo-menu"></i>
+                    </a>
+                </div>
+
+
+                <!-- open/close menu icon (do not remove if you want to enable menu on mobile devices) -->
+                <div class="sidebar-mobile-menu visible-xs">
+                    <a href="#" class="with-animation"><!-- add class "with-animation" to support animation -->
+                        <i class="entypo-menu"></i>
+                    </a>
+                </div>
+
                 <!-- logo -->
                 <div class="logo">
                     <a href="index.php">
@@ -57,7 +73,6 @@
 
 
             </header>
-
             <div class="sidebar-user-info">
 
                 <div class="sui-normal">
@@ -71,63 +86,9 @@
             </div>
 
 
-            <ul id="main-menu" class="main-menu">
-                <!-- add class "multiple-expanded" to allow multiple submenus to open -->
-                <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
-                <ul id="main-menu" class="main-menu">
-                    <!-- add class "multiple-expanded" to allow multiple submenus to open -->
-                    <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
-                    <li class="opened active">
-                        <a href="index.php">
-                            <i class="entypo-gauge"></i>
-                            <span class="title">Dashboard</span>
-                        </a>
-
-                    </li>
-
-                    <li>
-                        <a href="create_project.php">
-                            <i class="entypo-menu"></i>
-                            <span class="title"><b>Create Project</b></span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="Projects_view.php">
-                            <i class="entypo-menu"></i>
-                            <span class="title"><b>Projects</b></span>
-                        </a>
-                    </li>
-                    <?php
-                    $role = $_SESSION['simple_auth']['role'];
-                    if ($role == "admin") {
-                        ?>
-                        <li>
-                            <a href="Create_user.php">
-                                <i class="entypo-menu"></i>
-                                <span class="title"><b>Create User</b></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="categories.php">
-                                <i class="entypo-menu"></i>
-                                <span class="title"><b>categories</b></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="members_permissions.php">
-                                <i class="entypo-menu"></i>
-                                <span class="title"><b>members permissions</b></span>
-                            </a>
-                        </li>
-                        <?php
-                    }
-                    ?>
-
-
-                </ul>
-
-        </div>
+            <?php
+            include_once 'Links_bar.php';
+            ?> </div>
 
     </div>
 
@@ -178,7 +139,8 @@
 
                                     You have <strong>1</strong> new notifications.
                                 </p>
-                                <a href=""><b><u>Welcome to Copywriterr - Start generating unlimited content
+                                <a href="create_project.php"><b><u>Welcome to Copywriterr - Start generating unlimited
+                                            content
                                             now!</b></u></a>
                             </li>
 
@@ -280,27 +242,6 @@
 
                 <ul class="list-inline links-list pull-right">
 
-                    <!-- Language Selector -->
-                    <li class="dropdown language-selector">
-
-                        Language: &nbsp;
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
-                            <img src="assets/images/flags/flag-uk.png" width="16" height="16"/>
-                        </a>
-
-                        <ul class="dropdown-menu pull-right">
-
-                            <li class="active">
-                                <a href="#">
-                                    <img src="assets/images/flags/flag-uk.png" width="16" height="16"/>
-                                    <span>English</span>
-                                </a>
-                            </li>
-
-                        </ul>
-
-                    </li>
-
 
                     <li class="sep"></li>
                     <li>
@@ -319,13 +260,7 @@
                             <span class="title"><b>Tutorials</b></span>
                         </a>
                     </li>
-                    <li class="sep"></li>
-                    <li>
-                        <a href="seotools.php">
-                            <i class="entypo-rocket"></i>
-                            <span class="title">Marketing Tools</span>
-                        </a>
-                    </li>
+
                     <li class="sep"></li>
                     <li>
                         <a href="?simple_auth_action=logout">
@@ -537,38 +472,118 @@
             </div>
 
         </div>
-
+        <br>
+        <img src="assets/images/newproject.png"></img><br><br><br>
         <form method="post">
 
             <?php
+            //Import PHPMailer classes into the global namespace
+            //These must be at the top of your script, not inside a function
+            use PHPMailer\PHPMailer\PHPMailer;
+            use PHPMailer\PHPMailer\SMTP;
+            use PHPMailer\PHPMailer\Exception;
+
+            //Load Composer's autoloader
+            require 'vendor/autoload.php';
+
+            //Create an instance; passing `true` enables exceptions
+            $mail = new PHPMailer(true);
             include_once './data/conn.php';
 
             if (isset($_POST['create'])) {
                 $email = $_SESSION['simple_auth']['login'];
                 $title = $_POST['title'];
                 $type = $_POST['type'];
+
                 $number = $_POST['number'];
+
+                $y = $conn->query("SELECT * FROM `categories` WHERE `name`='$type'");
+
+                $y = $y->fetch_array(MYSQLI_ASSOC) ;
+
+                $availableForType = json_decode($y['Words']);
+
+                if (!in_array($number, $availableForType)) {
+                        echo
+                    '<div class="alert alert-danger" role="alert">
+  Your Have Max Number Word For This Type!
+</div>';
+                        return;
+                }
+
+
                 $about = $_POST['about'];
-                $status = "padding";
+                $status = "Processing";
+                $today = date("m.d.y");
+                $projectTodayDay = (int)$conn->query("SELECT * FROM `project` WHERE `email`='$email' and `date`='$today'")->num_rows;
+                $role = $_SESSION['role'];
+                $maxProjectPerDay = $conn->query("SELECT * FROM `members_types` WHERE `name`='$role'");
+                $maxProjectPerDay = (int)$maxProjectPerDay->fetch_array(MYSQLI_ASSOC)['create_project_aday'];
+                if ($projectTodayDay >= $maxProjectPerDay) {
+                    echo "<div class=\"alert alert-danger\" role=\"alert\">
+  You've reached the maximum projects limit for today!
+</div>";
+                    return;
+                }
 
 
-                $r = $conn->query("INSERT INTO `project`( `email`, `title`, `type`, `number`, `about`, `status`) VALUES ('$email', '$title', '$type', '$number', '$about', '$status')");
+                $r = $conn->query("INSERT INTO `project`( `email`, `title`, `type`, `number`, `about`, `status`, `date`) VALUES ('$email', '$title', '$type', '$number', '$about', '$status', '$today')");
                 if ($r) echo '<div class="alert alert-success" role="alert">
   success!
 </div>';
-                if (!$r) echo '<div class="alert alert-danger" role="alert">
+                if (!$r) {
+                    echo
+                    '<div class="alert alert-danger" role="alert">
   Error!
 </div>';
+                    return;
+                }
+				
+				$SendFor = ["iwarrior786@gmail.com", "ahistb2019@gmail.com", "qandilafa@gmail.com"];
+				
+				foreach ($SendFor as $to) {
+
+                try {
+                    //Server settings
+//    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+                    $mail->isSMTP();                                            //Send using SMTP
+                    $mail->Host = 'smtp.gmail.com';                     //Set the SMTP server to send through
+                    $mail->SMTPAuth = true;                                   //Enable SMTP authentication
+                    $mail->Username = '';                     //SMTP username
+                    $mail->Password = '';                               //SMTP password
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+                    $mail->Port = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+                    //Recipients
+                    $mail->setFrom('System@system.com', 'Mailer');
+                    $mail->addAddress($to, 'Admin');     //Add a recipient
+
+                    //Content
+                    $mail->isHTML(true);                                  //Set email format to HTML
+                    $mail->Subject = 'You have new project "Articles"';
+                    $mail->Body = 'You have new project "Articles" from ' . $email;
+                    $mail->AltBody = 'You have new project "Articles"';
+
+                    $mail->send();
+//    echo 'Message has been sent';
+                } catch (Exception $e) {
+//    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                }
+				}
             }
             ?>
             <div class="form-group">
-                <label for="exampleFormControlInput1">Project Title</label>
+                <label for="exampleFormControlInput1"><b><font size="3" style="color:#253A8F">Project
+                            Title</font></b></label>
                 <input type="TXT" name="title" class="form-control" id="exampleFormControlInput1"
-                       placeholder="">
+                       placeholder="Give your project a name.." required>
             </div>
             <div class="form-group">
-                <label for="exampleFormControlSelect1">Type of Writing</label>
-                <select class="form-control" name="type" id="exampleFormControlSelect1">
+                <label for="exampleFormControlSelect1"><b><font size="3" style="color:#253A8F">Content
+                            Type</font></b></label>
+                <select onchange="UpdateWords(this)" class="form-control" name="type" id="exampleFormControlSelect1"
+                        required>
+                    <option value="" disabled selected>Choose Type</option>
                     <?php
                     $c = $conn->query("SELECT * FROM `members_types` WHERE 1");
 
@@ -585,7 +600,7 @@
                         }
                     }
                     foreach ($r as $item) {
-                        if (in_array( $item['name'], $role_array)) {
+                        if (in_array($item['name'], $role_array)) {
 
                             echo "<option>{$item['name']}</option>";
                         }
@@ -597,25 +612,69 @@
             </div>
             <div class="form-group">
                 <label for="exampleFormControlSelect1">
-                    Number of Words</label>
-                <select class="form-control" name="number" id="exampleFormControlSelect1">
+                    <b><font size="3" style="color:#253A8F">Number of Words</font></b></label>
+                <select disabled id="words_number" class="form-control" name="number" id="exampleFormControlSelect1"
+                        required>
+                    <option id="placeHolder" disabled selected>select words number</option>
+                    <option>50 words</option>
                     <option>100 words</option>
                     <option>150 words</option>
                     <option>250 words</option>
-                    <option>500 words</option>
-                    <option>750 words</option>
+
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="exampleFormControlTextarea1">What is your content about?</label>
-                <textarea class="form-control" placeholder=" Write a heading, keyword, brand name, bullet points or few words about your topic." name="about" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <label for="exampleFormControlTextarea1"><b><font size="3" style="color:#253A8F">What is your content
+                            about?</font></b></label>
+                <textarea class="form-control"
+                          placeholder=" Write a few words about your topic OR some keywords OR brand name OR product/service description"
+                          name="about" id="exampleFormControlTextarea1" rows="3"></textarea>
             </div>
-            <button name="create" class="btn btn-success">GENERATE CONTENT</button>
+            <button name="create" class="btn btn-success"><b>GENERATE CONTENT</b></button>
         </form>
 
 
     </div>
+
+    <script>
+        UpdateWords = (el) => {
+            <?php
+
+            $y = $conn->query("SELECT * FROM `categories` WHERE 1");
+
+            $y = $y ? $y->fetch_all(MYSQLI_ASSOC) : [];
+
+            ?>
+
+            let categories = <?php echo json_encode($y);?>;
+            let category = []
+
+            let value = el.value;
+
+            for (let i in categories) {
+                if (categories[i].name === value) {
+                    category = categories[i];
+                    break
+                }
+
+            }
+
+            let select_words = document.querySelector('#words_number');
+
+            let availableWords = JSON.parse(category.Words);
+            select_words.querySelectorAll('option:not([disabled])').forEach((el, parant) => {
+                if (!availableWords.includes(el.innerHTML)) {
+                    $(el).hide();
+                } else {
+                    $(el).show();
+                }
+            })
+
+            select_words.removeAttribute('disabled');
+
+        }
+    </script>
 
 
     <!-- Imported styles on this page -->

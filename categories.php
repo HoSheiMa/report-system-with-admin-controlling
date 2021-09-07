@@ -71,62 +71,10 @@
             </div>
 
 
-            <ul id="main-menu" class="main-menu">
-                <!-- add class "multiple-expanded" to allow multiple submenus to open -->
-                <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
-                <ul id="main-menu" class="main-menu">
-                    <!-- add class "multiple-expanded" to allow multiple submenus to open -->
-                    <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
-                    <li class="opened active">
-                        <a href="index.php">
-                            <i class="entypo-gauge"></i>
-                            <span class="title">Dashboard</span>
-                        </a>
 
-                    </li>
-
-                    <li>
-                        <a href="create_project.php">
-                            <i class="entypo-menu"></i>
-                            <span class="title"><b>Create Project</b></span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="Projects_view.php">
-                            <i class="entypo-menu"></i>
-                            <span class="title"><b>Projects</b></span>
-                        </a>
-                    </li>
-                    <?php
-                    $role = $_SESSION['simple_auth']['role'];
-                    if ($role == "admin") {
-                        ?>
-                        <li>
-                            <a href="Create_user.php">
-                                <i class="entypo-menu"></i>
-                                <span class="title"><b>Create User</b></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="categories.php">
-                                <i class="entypo-menu"></i>
-                                <span class="title"><b>categories</b></span>
-                            </a>
-                        </li>
-                          <li>
-                        <a href="members_permissions.php">
-                            <i class="entypo-menu"></i>
-                            <span class="title"><b>members permissions</b></span>
-                        </a>
-                    </li>
-                        <?php
-                    }
-                    ?>
-
-                </ul>
-
-        </div>
+            <?php
+            include_once 'Links_bar.php';
+            ?> </div>
 
     </div>
 
@@ -598,7 +546,8 @@
     display: inline-block' method='post'>      
                           <input type='hidden' name='id' value=\"{$item['id']}\">
                           <button type='submit' name='delete' class='btn btn-danger'>Delete</button> </form>
-                          
+                          <input type='hidden' value='{$item['Words']}'>
+                                  <button class='btn btn-info' onclick='edit(\"{$item['id']}\", $(this).prev().val())'>Edit</button>  
                         
 
 </td>
@@ -614,45 +563,47 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
+
     <script>
-        approve = (el, type, number, about) => {
+
+        edit = (id, permissions) => {
+            let list= [
+                   "50 words",
+                    "100 words",
+                    "150 words",
+                    "250 words"
+            ];
+            html = ``;
+            for (let i in list) {
+                let checked = permissions.includes(list[i]) ? 'checked' : ''
+                html += `
+                <div class="form-check">
+                      <input ${checked} class="form-check-input" name="permissions[]" type="checkbox" value="${list[i]}" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        ${list[i]}
+                      </label>
+                    </div>
+`
+            }
+
             $.confirm({
                 title: 'Prompt!',
                 content: '' +
-                    '<form action="" class="formName">' +
+                    '<form action="./setup_permissions_words.php" method="post" class="formName">' +
+                    `<input name="id" type="hidden" value="${id}">` +
                     '<div class="form-group">' +
-                    '<label>User Content</label>' +
-
-                    '<input type="text" value="' + about + '" disabled placeholder="" class=" form-control"  />' +
-
-                    '<label>Writing Type</label>' +
-
-                    '<input type="text" value="' + type + '" disabled placeholder="" class=" form-control"  />' +
-                    '<label>Number of Words</label>' +
-
-                    '<input type="text" value="' + number + '" disabled placeholder="" class=" form-control"  />' +
-                    '<label>Enter something here</label>' +
-                    '<textarea style="min-height: 300px;" type="text" placeholder="Your comment" class="name form-control" required />' +
-                    '</div>' +
+                    '<label>Select Permissions</label>' +
+                    html +
+                      '</div>' +
                     '</form>',
                 buttons: {
                     formSubmit: {
                         text: 'Submit',
                         btnClass: 'btn-blue',
                         action: function () {
-                            var name = this.$content.find('.name').val();
-                            if (!name) {
-                                $.alert('provide a valid comment');
-                                return false;
-                            }
+                            this.$content.find('form').submit();
 
 
-                            $.alert('Your comment is ' + name);
-
-                            $(el).parent().find("[name='comment']").val(name);
-                            $(el).parent().find("[name='update']").css('display', 'inline');
-                            $(el).parent().find("[name='update']").click();
-                            $(el).remove();
                         }
                     },
                     cancel: function () {
@@ -661,19 +612,18 @@
                 },
                 onContentReady: function () {
                     // bind to events
-                    var jc = this;
-                    this.$content.find('form').on('submit', function (e) {
-                        // if the user submits the form by pressing enter in the field.
-                        e.preventDefault();
-                        jc.$$formSubmit.trigger('click'); // reference the button and click it
-                    });
+                    // var jc = this;
+                    // this.$content.find('form').on('submit', function (e) {
+                    //     // if the user submits the form by pressing enter in the field.
+                    //
+                    //     e.preventDefault();
+                    //     jc.$$formSubmit.trigger('click'); // reference the button and click it
+                    // });
                 }
             });
 
         }
-    </script>
-
-    <!-- Imported styles on this page -->
+    </script> <!-- Imported styles on this page -->
     <link rel="stylesheet" href="assets/js/jvectormap/jquery-jvectormap-1.2.2.css">
     <link rel="stylesheet" href="assets/js/rickshaw/rickshaw.min.css">
 

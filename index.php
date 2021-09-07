@@ -6,10 +6,10 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Neon Admin Panel"/>
+    <meta name="description" content="Copywriterr is the #1 AI-Powered Content Generation Software."/>
     <meta name="author" content=""/>
 
-    <link rel="icon" href="assets/images/favicon.ico">
+    <link rel="icon" href="assets/images/favicon1.png">
 
     <title>Copywriterr - Members Area</title>
 
@@ -47,6 +47,20 @@
 
             <header class="logo-env">
 
+<!-- logo collapse icon -->
+				<div class="sidebar-collapse">
+					<a href="#" class="sidebar-collapse-icon"><!-- add class "with-animation" if you want sidebar to have animation during expanding/collapsing transition -->
+						<i class="entypo-menu"></i>
+					</a>
+				</div>
+
+
+				<!-- open/close menu icon (do not remove if you want to enable menu on mobile devices) -->
+				<div class="sidebar-mobile-menu visible-xs">
+					<a href="#" class="with-animation"><!-- add class "with-animation" to support animation -->
+						<i class="entypo-menu"></i>
+					</a>
+				</div>
 
                 <!-- logo -->
                 <div class="logo">
@@ -70,60 +84,12 @@
                 </div>
             </div>
 
-
-            <ul id="main-menu" class="main-menu">
-                <!-- add class "multiple-expanded" to allow multiple submenus to open -->
-                <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
-                <li class="opened active">
-                    <a href="index.php">
-                        <i class="entypo-gauge"></i>
-                        <span class="title">Dashboard</span>
-                    </a>
-
-                </li>
-
-                <li>
-                    <a href="create_project.php">
-                        <i class="entypo-menu"></i>
-                        <span class="title"><b>Create Project</b></span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="Projects_view.php">
-                        <i class="entypo-menu"></i>
-                        <span class="title"><b>Projects</b></span>
-                    </a>
-                </li>
-
-                <?php
-                $role = $_SESSION['simple_auth']['role'];
-                if ($role == "admin") {
-                    ?>
-                    <li>
-                        <a href="Create_user.php">
-                            <i class="entypo-menu"></i>
-                            <span class="title"><b>Create User</b></span>
-                        </a>
-                    </li>
-                      <li>
-                        <a href="categories.php">
-                            <i class="entypo-menu"></i>
-                            <span class="title"><b>categories</b></span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="members_permissions.php">
-                            <i class="entypo-menu"></i>
-                            <span class="title"><b>members permissions</b></span>
-                        </a>
-                    </li>
-                    <?php
-                }
-                ?>
+            <?php
+            include_once 'Links_bar.php';
+            ?>
 
 
-            </ul>
+
 
         </div>
 
@@ -176,8 +142,7 @@
 
                                     You have <strong>1</strong> new notifications.
                                 </p>
-                                <a href=""><b><u>Welcome to Copywriterr - Start generating unlimited content
-                                            now!</b></u></a>
+                                <a href="create_project.php"><b><u>Welcome to Copywriterr - Start generating content now!</b></u></a>
                             </li>
 
                             <li>
@@ -278,26 +243,7 @@
 
                 <ul class="list-inline links-list pull-right">
 
-                    <!-- Language Selector -->
-                    <li class="dropdown language-selector">
 
-                        Language: &nbsp;
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
-                            <img src="assets/images/flags/flag-uk.png" width="16" height="16"/>
-                        </a>
-
-                        <ul class="dropdown-menu pull-right">
-
-                            <li class="active">
-                                <a href="#">
-                                    <img src="assets/images/flags/flag-uk.png" width="16" height="16"/>
-                                    <span>English</span>
-                                </a>
-                            </li>
-
-                        </ul>
-
-                    </li>
 
 
                     <li class="sep"></li>
@@ -317,13 +263,7 @@
                             <span class="title"><b>Tutorials</b></span>
                         </a>
                     </li>
-                    <li class="sep"></li>
-                    <li>
-                        <a href="seotools.php">
-                            <i class="entypo-rocket"></i>
-                            <span class="title">Marketing Tools</span>
-                        </a>
-                    </li>
+
                     <li class="sep"></li>
                     <li>
                         <a href="?simple_auth_action=logout">
@@ -359,7 +299,7 @@
                         "hideMethod": "fadeOut"
                     };
 
-                    toastr.success("Welcome to CR Dashboard! :)", opts);
+                    toastr.success("Welcome to Copywriterr! :)", opts);
                 }, 3000);
 
 
@@ -511,11 +451,21 @@
 
                 <div class="tile-stats tile-red">
                     <div class="icon"><i class="entypo-users"></i></div>
-                    <div><h1><b style="color:white">PRO</b></h1></div>
+                           <div><h1><b style="color:white"><?php
+
+                                $type = [
+                                        "ADMIN" => "ADMIN",
+                                        "PRO USER" => "PRO",
+                                        "AGENCY USER" => "AGENCY",
+                                        "BASIC USER" => "BASIC"
+                                ];
+
+                                echo $type[strtoupper($_SESSION['role'])] ?></b></h1></div>
+
 
                     <h3>Membership</h3>
-                    <p></p>
-                    <br>
+                    <p>Annual Plan</p>
+
                 </div>
 
             </div>
@@ -551,11 +501,11 @@
 
                 <div class="tile-stats tile-blue">
                     <div class="icon"><i class="entypo-monitor"></i></div>
-                    <div class="num" data-start="0" data-end="9" data-postfix="" data-duration="1500" data-delay="1800">
+                    <div class="num" data-start="0" data-end="12" data-postfix="" data-duration="1500" data-delay="1800">
                         0
                     </div>
 
-                    <h3>Seconds (Avg.)</h3>
+                    <h3>Minutes (Avg.)</h3>
                     <p>Content Generation Speed</p>
                 </div>
 
@@ -567,7 +517,7 @@
         <div class="row">
             <div class="col-sm-8">
 
-                <a href="paragraph-writer.php"> <img src="assets/images/dash.png" width="100%"></a>
+                <a href="create_project.php"> <img src="assets/images/dash.png" width="100%"></a>
 
                 <div class="panel panel-primary" id="charts_env">
 
@@ -580,15 +530,15 @@
                         <div class="tab-content">
 
                             <div class="tab-pane" id="area-chart">
-                                <div id="area-chart-demo" class="morrischart" style="height: 300px"></div>
+                                <div id="area-chart-demo" class="morrischart" style="height: 0px"></div>
                             </div>
 
                             <div class="tab-pane" id="line-chart">
-                                <div id="line-chart-demo" class="morrischart" style="height: 300px"></div>
+                                <div id="line-chart-demo" class="morrischart" style="height: 0px"></div>
                             </div>
 
                             <div class="tab-pane active" id="pie-chart">
-                                <div id="donut-chart-demo" class="morrischart" style="height: 300px;"></div>
+                                <div id="donut-chart-demo" class="morrischart" style="height: 0px;"></div>
                             </div>
 
                         </div>
@@ -627,17 +577,7 @@
         </div>
 
 
-        <br/>
-        <br>
 
-
-        <!-- Footer -->
-        <footer class="main">
-
-            Copyrights &copy; 2021 - <strong>Powered By</strong> <a href="https://Copywriterr.co" target="_blank"><b
-                        style="color:orange">Copywriterr</b></a>
-
-        </footer>
     </div>
 
 

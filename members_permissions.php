@@ -71,62 +71,9 @@
             </div>
 
 
-            <ul id="main-menu" class="main-menu">
-                <!-- add class "multiple-expanded" to allow multiple submenus to open -->
-                <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
-                <ul id="main-menu" class="main-menu">
-                    <!-- add class "multiple-expanded" to allow multiple submenus to open -->
-                    <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
-                    <li class="opened active">
-                        <a href="index.php">
-                            <i class="entypo-gauge"></i>
-                            <span class="title">Dashboard</span>
-                        </a>
-
-                    </li>
-
-                    <li>
-                        <a href="create_project.php">
-                            <i class="entypo-menu"></i>
-                            <span class="title"><b>Create Project</b></span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="Projects_view.php">
-                            <i class="entypo-menu"></i>
-                            <span class="title"><b>Projects</b></span>
-                        </a>
-                    </li>
-                    <?php
-                    $role = $_SESSION['simple_auth']['role'];
-                    if ($role == "admin") {
-                        ?>
-                        <li>
-                            <a href="Create_user.php">
-                                <i class="entypo-menu"></i>
-                                <span class="title"><b>Create User</b></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="categories.php">
-                                <i class="entypo-menu"></i>
-                                <span class="title"><b>categories</b></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="members_permissions.php">
-                                <i class="entypo-menu"></i>
-                                <span class="title"><b>members permissions</b></span>
-                            </a>
-                        </li>
-                        <?php
-                    }
-                    ?>
-
-                </ul>
-
-        </div>
+            <?php
+            include_once 'Links_bar.php';
+            ?></div>
 
     </div>
 
@@ -600,7 +547,7 @@
       <th scope='row'>{$item['id']}</th>
       <td>{$item['name']}</td>
       <td>
-                          <button type='submit' name='edit' onclick='edit(this, `{$item['id']}`, `{$item['permissions']}`)' class='btn btn-info'>edit</button> 
+                          <button type='submit' name='edit' onclick='edit(this, `{$item['id']}`, `{$item['permissions']}`, `{$item['create_project_aday']}`)' class='btn btn-info'>edit</button> 
                           
                         
 
@@ -619,10 +566,9 @@
 
     <script>
 
-        edit = (el, id,  permissions) => {
+        edit = (el, id, permissions, create_project_aday) => {
             let listOfPermission = <?php echo json_encode($r) ?>;
-            let html = ``;
-
+            html = ``;
             for (let i in listOfPermission) {
                 let checked = permissions.includes(listOfPermission[i]['name']) ? 'checked' : ''
                 html += `
@@ -643,6 +589,8 @@
                     '<div class="form-group">' +
                     '<label>Select Permissions</label>' +
                     html +
+                    '<label>Project per day</label> <br/>' +
+                    `<input name="create_project_aday" type="number" value="${create_project_aday}" />  ` +
                     '</div>' +
                     '</form>',
                 buttons: {

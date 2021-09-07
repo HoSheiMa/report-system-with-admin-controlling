@@ -330,6 +330,7 @@ class SimpleAuth
         if ($r && $r->num_rows > 0) {
             $r = $r->fetch_array(MYSQLI_ASSOC);
             $_SESSION['role'] = $r['role'];
+            $_SESSION['username'] = $r['username'];
             return $r['email'];
         }
 
@@ -614,8 +615,8 @@ class SimpleAuth
     function getLogin()
     {
         $ns = $this->config['session_namespace'];
-        if (isset($_SESSION[$ns]['login'])) {
-            return $_SESSION[$ns]['login'];
+        if (isset($_SESSION['username'])) {
+            return $_SESSION['username'];
         }
     }
 

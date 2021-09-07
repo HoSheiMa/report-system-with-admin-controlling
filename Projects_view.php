@@ -9,7 +9,7 @@
     <meta name="description" content="Neon Admin Panel"/>
     <meta name="author" content=""/>
 
-    <link rel="icon" href="assets/images/favicon.ico">
+    <link rel="icon" href="assets/images/favicon1.png">
 
     <title>Copywriterr - Members Area</title>
 
@@ -48,7 +48,22 @@
             <header class="logo-env">
 
 
-                <!-- logo -->
+                   <!-- logo collapse icon -->
+				<div class="sidebar-collapse">
+					<a href="#" class="sidebar-collapse-icon"><!-- add class "with-animation" if you want sidebar to have animation during expanding/collapsing transition -->
+						<i class="entypo-menu"></i>
+					</a>
+				</div>
+
+
+				<!-- open/close menu icon (do not remove if you want to enable menu on mobile devices) -->
+				<div class="sidebar-mobile-menu visible-xs">
+					<a href="#" class="with-animation"><!-- add class "with-animation" to support animation -->
+						<i class="entypo-menu"></i>
+					</a>
+				</div>
+
+			 <!-- logo -->
                 <div class="logo">
                     <a href="index.php">
                         <img src="assets/images/logo2x.png" width="195" alt=""/>
@@ -71,62 +86,10 @@
             </div>
 
 
-            <ul id="main-menu" class="main-menu">
-                <!-- add class "multiple-expanded" to allow multiple submenus to open -->
-                <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
-                <ul id="main-menu" class="main-menu">
-                    <!-- add class "multiple-expanded" to allow multiple submenus to open -->
-                    <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
-                    <li class="opened active">
-                        <a href="index.php">
-                            <i class="entypo-gauge"></i>
-                            <span class="title">Dashboard</span>
-                        </a>
 
-                    </li>
-
-                    <li>
-                        <a href="create_project.php">
-                            <i class="entypo-menu"></i>
-                            <span class="title"><b>Create Project</b></span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="Projects_view.php">
-                            <i class="entypo-menu"></i>
-                            <span class="title"><b>Projects</b></span>
-                        </a>
-                    </li>
-                        <?php
-                $role = $_SESSION['simple_auth']['role'];
-                if ($role == "admin") {
-                    ?>
-                    <li>
-                        <a href="Create_user.php">
-                            <i class="entypo-menu"></i>
-                            <span class="title"><b>Create User</b></span>
-                        </a>
-                    </li>
-                      <li>
-                        <a href="categories.php">
-                            <i class="entypo-menu"></i>
-                            <span class="title"><b>categories</b></span>
-                        </a>
-                    </li>
-                      <li>
-                        <a href="members_permissions.php">
-                            <i class="entypo-menu"></i>
-                            <span class="title"><b>members permissions</b></span>
-                        </a>
-                    </li>
-                    <?php
-                }
-                ?>
-
-                </ul>
-
-        </div>
+            <?php
+            include_once 'Links_bar.php';
+            ?></div>
 
     </div>
 
@@ -177,7 +140,7 @@
 
                                     You have <strong>1</strong> new notifications.
                                 </p>
-                                <a href=""><b><u>Welcome to Copywriterr - Start generating unlimited content
+                                <a href="create_project.php"><b><u>Welcome to Copywriterr - Start generating unlimited content
                                             now!</b></u></a>
                             </li>
 
@@ -279,27 +242,6 @@
 
                 <ul class="list-inline links-list pull-right">
 
-                    <!-- Language Selector -->
-                    <li class="dropdown language-selector">
-
-                        Language: &nbsp;
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
-                            <img src="assets/images/flags/flag-uk.png" width="16" height="16"/>
-                        </a>
-
-                        <ul class="dropdown-menu pull-right">
-
-                            <li class="active">
-                                <a href="#">
-                                    <img src="assets/images/flags/flag-uk.png" width="16" height="16"/>
-                                    <span>English</span>
-                                </a>
-                            </li>
-
-                        </ul>
-
-                    </li>
-
 
                     <li class="sep"></li>
                     <li>
@@ -318,13 +260,7 @@
                             <span class="title"><b>Tutorials</b></span>
                         </a>
                     </li>
-                    <li class="sep"></li>
-                    <li>
-                        <a href="seotools.php">
-                            <i class="entypo-rocket"></i>
-                            <span class="title">Marketing Tools</span>
-                        </a>
-                    </li>
+
                     <li class="sep"></li>
                     <li>
                         <a href="?simple_auth_action=logout">
@@ -507,6 +443,7 @@
         </script>
 
 
+
         <div id="chat" class="fixed" data-current-user="Art Ramadani" data-order-by-status="1"
              data-max-chat-history="25">
 
@@ -535,7 +472,13 @@
 
             </div>
 
+
+
         </div>
+
+        <br>
+        <img src="assets/images/manage.png"></img>
+        <br><br><Br>
         <?php
         $filter = "All";
         if (isset($_POST['filter_btn'])) {
@@ -544,7 +487,7 @@
         ?>
         <form action="" method="post">
             <div class="form-group">
-                <label for="exampleFormControlSelect1">Type of Writing</label>
+                <label for="exampleFormControlSelect1"><b>Project Type</b></label>
                 <select class="form-control" name="type" id="exampleFormControlSelect1">
                     <option>All</option>
                     <option>Article</option>
@@ -557,7 +500,7 @@
                     <option>Website Meta Descriptions</option>
                     <option>Youtube Video Description</option>
                 </select>
-                <button name="filter_btn" style="margin-top: 3px">filter</button>
+                <button name="filter_btn" style="margin-top: 3px">Filter Projects</button>
             </div>
         </form>
 
@@ -568,14 +511,14 @@
 
             ?>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Title</th>
+               <th scope="col" style="background-color:#FDB160"><b>Project ID</b></th>
+                <th scope="col" style="background-color:#FDB160"><b>Project Title</b></th>
                 <?php if ($role === "admin") { ?>
-                    <th scope="col">Email</th> <?php } ?>
-                <th scope="col">Type</th>
-                <th scope="col">Number</th>
-                <th scope="col">Status</th>
-                <th scope="col">
+                    <th scope="col" style="background-color:#FDB160">Email</th> <?php } ?>
+                <th scope="col" style="background-color:#FDB160"><b>Content Type</b></th>
+                <th scope="col" style="background-color:#FDB160"><b>Total Words</b></th>
+                <th scope="col" style="background-color:#FDB160"><b>Status</b></th>
+                <th scope="col" style="background-color:#FDB160"> <b>Content</b>
 
                 </th>
             </tr>
@@ -590,14 +533,15 @@
             if (isset($_POST['update'])) {
                 $id = $_POST['id'];
                 $comment = $_POST['comment'];
+                $comment = str_replace('"', "'",$comment );
 
 
-                $conn->query("UPDATE `project` SET `status`='approve', `comment`='{$comment}' WHERE `id`='{$id}' ");
+                $conn->query("UPDATE `project` SET `status`='Completed', `comment`=\"{$comment}\" WHERE `id`='{$id}' ");
             }
 
 
             if ($role == "admin") {
-                $extra = " `status`='padding'";
+                $extra = " `status`='Processing'";
 
             } else {
                 $extra = "`email`='$email'";
@@ -615,7 +559,7 @@
                         continue;
                     }
                 }
-                if ($item['status'] == "padding" && $role == "admin") {
+                if ($item['status'] == "Processing" && $role == "admin") {
                     $approve = "  <form action='' style='
     display: inline-block' method='post'>      
                           <input type='hidden' name='id' value=\"{$item['id']}\">
@@ -631,9 +575,9 @@
                 $download  = " <form action='download.php' style='
     display: inline-block' method='post'>      
                           <input type='hidden' name='id' value=\"{$item['id']}\">
-                          <button type='submit' name='download' class='btn btn-info'>Download Text</button> </form>";
+                          <button type='submit' name='download' class='btn btn-info'>Download Content</button> </form>";
 
-                $download = $role === "admin" ? $download : (($item['status'] == "approve") ? $download : '');
+                $download = $role === "admin" ? $download : (($item['status'] == "Completed") ? $download : '');
                 echo "<tr>
       <th scope='row'>{$item['id']}</th>
       <td>{$item['title']}</td>
@@ -731,6 +675,7 @@
         }
     </script>
 
+
     <!-- Imported styles on this page -->
     <link rel="stylesheet" href="assets/js/jvectormap/jquery-jvectormap-1.2.2.css">
     <link rel="stylesheet" href="assets/js/rickshaw/rickshaw.min.css">
@@ -762,6 +707,8 @@
 
     <!-- Demo Settings -->
     <script src="assets/js/neon-demo.js"></script>
+
+
 
 </body>
 </html>

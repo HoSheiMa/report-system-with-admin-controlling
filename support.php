@@ -6,12 +6,12 @@
 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="description" content="Neon Admin Panel" />
+	<meta name="description" content="Copywriterr is the #1 AI-Powered Content Generation Software." />
 	<meta name="author" content="" />
 
-	<link rel="icon" href="assets/images/favicon.ico">
+	<link rel="icon" href="assets/images/favicon1.png">
 
-	<title>Click Ranker - Support Desk</title>
+	<title>Copywriterr - Members Area</title>
 
 	<link rel="stylesheet" href="assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css">
 	<link rel="stylesheet" href="assets/css/font-icons/entypo/css/entypo.css">
@@ -21,7 +21,7 @@
 	<link rel="stylesheet" href="assets/css/neon-theme.css">
 	<link rel="stylesheet" href="assets/css/neon-forms.css">
 	<link rel="stylesheet" href="assets/css/custom.css">
-<link rel="stylesheet" href="assets/css/skins/purple.css">
+<link rel="stylesheet" href="assets/css/skins/blue.css">
 
 	<script src="assets/js/jquery-1.11.3.min.js"></script>
 
@@ -44,15 +44,8 @@
 		<div class="sidebar-menu-inner">
 			
 			<header class="logo-env">
-
-				<!-- logo -->
-				<div class="logo">
-					<a href="index.php">
-						<img src="assets/images/logo@2x.png" width="120" alt="" />
-					</a>
-				</div>
-
-				<!-- logo collapse icon -->
+			    
+			    <!-- logo collapse icon -->
 				<div class="sidebar-collapse">
 					<a href="#" class="sidebar-collapse-icon"><!-- add class "with-animation" if you want sidebar to have animation during expanding/collapsing transition -->
 						<i class="entypo-menu"></i>
@@ -67,6 +60,15 @@
 					</a>
 				</div>
 
+			 <!-- logo -->
+                <div class="logo">
+                    <a href="index.php">
+                        <img src="assets/images/logo2x.png" width="195" alt=""/>
+                    </a>
+                </div>
+
+				
+
 			</header>
 
 <div class="sidebar-user-info">
@@ -76,82 +78,91 @@
 						<img src="assets/images/thumb-1@2x.png" width="55" alt="" class="img-circle" />
 
 						<span>Welcome,</span>
-						<strong>User1500</strong>
+						<strong><?php echo $simpleAuthInstance->getLogin(); ?></strong>
 					</a>
 				</div>
 </div>
 			
 									
-			<ul id="main-menu" class="main-menu">
-				<!-- add class "multiple-expanded" to allow multiple submenus to open -->
-				<!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
-				<li>
-					<a href="index.php">
-						<i class="entypo-gauge"></i>
-						<span class="title">Dashboard</span>
-					</a>
-				
-				</li>
-				
-<li>
-					<a href="backlink-builder.php">
-						<i class="entypo-chart-bar"></i>
-						<span class="title"><b>Backlink Builder</b></span>
-					</a>
-				</li>
-				<li>
-					<a href="directory-submitter.php">
-						<i class="entypo-monitor"></i>
-						<span class="title"><b>Directory Submitter</b></span>
-					</a>
-				</li>
-<li>
-					<a href="video-submitter.php">
-						<i class="entypo-video"></i>
-						<span class="title"><b>Video Submitter</b></span>
-					</a>
-				</li>
-<li>
-					<a href="backlink-indexer.php">
-						<i class="entypo-flow-tree"></i>
-						<span class="title"><b>Backlink Indexer</b></span>
-					</a>
-			
-				</li>
-					<li>
-				    <a href="upgrade.php">
-						<i class="entypo-star"></i>
-						<span class="title"><b><font color="yellow">Upgrade Account (PRO)</font></b></span>
-					</a>
-				    </li>
-				
-				<li>
-					<a href="tutorials.php">
-						<i class="entypo-doc-text"></i>
-						<span class="title">Watch Tutorials</span>
-					</a>
-				</li>
-<li  class="opened active">
-					<a href="support.php">
-						<i class="entypo-mail"></i>
-						<span class="title">Support Desk</span>
-					
-					</a>
-					
-				</li>
-				<li>
-					<a href="seotools.php">
-						<i class="entypo-star"></i>
-						<span class="title">More SEO Tools</span>
-					</a>
-				</li>
-				
-				
-			</ul>
-			
-		</div>
+			 <ul id="main-menu" class="main-menu">
+                <!-- add class "multiple-expanded" to allow multiple submenus to open -->
+                <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
+                <li>
+                    <a href="index.php">
+                        <i class="entypo-gauge"></i>
+                        <span class="title">Dashboard</span>
+                    </a>
 
-	</div>
+                </li>
+
+                <li>
+                    <a href="create_project.php">
+                        <i class="entypo-newspaper"></i>
+                        <span class="title"><b>Create Project</b></span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="Projects_view.php">
+                        <i class="entypo-menu"></i>
+                        <span class="title"><b>Manage Projects</b></span>
+                    </a>
+                </li>
+                  <li>
+                        <a href="content-tools.php">
+                            <i class="entypo-book-open"></i>
+                            <span class="title">Content Tools</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="tutorials.php">
+                            <i class="entypo-video"></i>
+                            <span class="title"><b>Tutorials</b></span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="bonuses.php">
+                            <i class="entypo-download"></i>
+                            <span class="title">Free Bonuses</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="seotools.php">
+                            <i class="entypo-rocket"></i>
+                            <span class="title">Marketing Tools</span>
+                        </a>
+                    </li>
+                
+                   <li>
+                        <a href="edit-profile.php">
+                            <i class="entypo-user"></i>
+                            <span class="title">Edit Profile</span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        
+                        <a href="?simple_auth_action=logout">
+                           <i class="entypo-logout right"></i> Log Out 
+                        </a>
+                        
+                    </li>
+
+             <br><br<br><br><br<br><br<br><br><br<br><br<br><br><br<br><br<br><br><br<br><br<br><br><br<br>
+<li>
+                        
+                        <a href="">
+                           Powered by: Copywriterr v1.0.5
+                        </a>
+                        
+                    </li>
+            </ul>
+
+        </div>
+
+    </div>
 
 	<div class="main-content">
 				
@@ -202,7 +213,7 @@
 									
 									You have <strong>1</strong> new notifications.
 								</p>
-								<a href="upgrade.php"><b><u>Upgrade Account to PRO & Get 100s of Extra Powerful Links</b></u></a>
+							 <a href="create_project.php"><b><u>Welcome to Copywriterr - Start generating content now!</b></u></a>
 							</li>
 							
 							<li>
@@ -212,7 +223,7 @@
 									</li>
 									
 									<li class="notification-secondary">
-									
+										
 									</li>
 									
 									
@@ -301,68 +312,59 @@
 			<!-- Raw Links -->
 			<div class="col-md-6 col-sm-4 clearfix hidden-xs">
 		
-				<ul class="list-inline links-list pull-right">
-		
-					<!-- Language Selector -->
-					<li class="dropdown language-selector">
-		
-						Language: &nbsp;
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
-							<img src="assets/images/flags/flag-uk.png" width="16" height="16" />
-						</a>
-		
-						<ul class="dropdown-menu pull-right">
-						
-							<li class="active">
-								<a href="#">
-									<img src="assets/images/flags/flag-uk.png" width="16" height="16" />
-									<span>English</span>
-								</a>
-							</li>
-						
-						</ul>
-		
-					</li>
-		
-					<li class="sep"></li>
-		
-					
-					<li>
-						<a href="support.php" >
-							<i class="entypo-chat"></i>
-							Support
-		
-							<span class="badge badge-success chat-notifications-badge is-hidden">0</span>
-						</a>
-					</li>
-		
-					<li class="sep"></li>
-		
-					<li>
-						<a href="?simple_auth_action=logout">
-							Log Out <i class="entypo-logout right"></i>
-						</a>
-					</li>
-				</ul>
+				 <ul class="list-inline links-list pull-right">
+
+                  
+
+
+                    <li class="sep"></li>
+                    <li>
+                        <a href="support.php">
+                            <i class="entypo-chat"></i>
+                            Support Desk
+
+                            <span class="badge badge-success chat-notifications-badge is-hidden">0</span>
+                        </a>
+                    </li>
+
+                    <li class="sep"></li>
+                    <li>
+                        <a href="tutorials.php">
+                            <i class="entypo-video"></i>
+                            <span class="title"><b>Tutorials</b></span>
+                        </a>
+                    </li>
+                  
+                    <li class="sep"></li>
+                    <li>
+                        <a href="?simple_auth_action=logout">
+                            Log Out <i class="entypo-logout right"></i>
+                        </a>
+                    </li>
+                </ul>
 		
 			</div>
 		
 		</div>
 		
 		<hr />
+		<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
-		<!-- www.123formbuilder.com script begins here --><script type="text/javascript" defer src="//www.123formbuilder.com/embed/4893485.js" data-role="form" data-default-width="650px"></script><!-- www.123formbuilder.com script ends here -->
-		
-		
-		
 	
-		<!-- Footer -->
-		<footer class="main">
-			
-			Copyrights &copy; 2019 - <strong>Powered By</strong> <a href="http://click-ranker.com" target="_blank"><b style="color:orange">Click Ranker</b></a>
-		
-		</footer>
-	</div>
 
 		
 	<div id="chat" class="fixed" data-current-user="Art Ramadani" data-order-by-status="1" data-max-chat-history="25">

@@ -1,0 +1,76 @@
+Project ID: 18
+Title: Interior Design
+Writing Type: Sales Copy
+Number of Words: 200 words
+User entry: SEO software
+-----------------------------------------------------
+
+Copywriterr Content: 
+
+For a long time, it has been a matter of discussion about how many words are ideal for a web page in relation to SEO.
+
+There have been many who have tried to investigate and find the answer to it. But it is as if there is no clear answer yet.
+
+Many of the qualified answers that have been to the question of how many words are ideal for ranking high in the search results have suggested that word count actually does not matter. But still, many correlation studies that are put forward actually indicate that there is some correlation between high word count and high rankings.
+
+But is it now also true in an age that offers machine learning? That’s what we want to find out.
+
+Previous findings
+A quick Google search also provides a result from Yoast, which suggests that there is a higher chance of rankings in Google if a blog post contains over 1000 words.
+
+Yoast word count Featured snippet
+But on the page, they also state:
+
+“For regular posts or pages we advise writing more than 300 words. Why is that? Well, a higher word count helps Google to better understand what your text is about. And, generally speaking, Google tends to rank longer articles higher.“
+
+So at least 300 words, they think it takes to rank on Google.
+
+According to Google’s own webmaster trends analyst, John Mueller, he claims a long text does not necessarily provide better rankings.
+
+
+But if John says that longer text does not give higher rankings, why have these 3 major SEO institutions then found clear correlations that a text that has an average word count of 1.449 ranks better than all other pages?
+
+These 3 SEO institutions have concluded these numbers as being the best word count, for higher rankings:
+
+Yoast – Word count and SEO: 1.000.
+Search Engine Journal – What’s the ideal blog post length: 1.900.
+Backlinko – We analyzed 11.8 million Google search results: 1.447.
+Average word count: 1.449.
+
+Does this mean that you should always strive for a minimum of 1,449 words when you want to write a high-quality blog post or another kind of high-quality resource?
+
+Not necessarily.
+
+But why do these correlation studies then come up with more or less the same conclusion?
+
+A good guess could be that for many years there has been a basic idea that a longer text gave higher rankings, which is why the SEOs responsible for these websites have tended to write long texts.
+
+So the correlations could actually be due to marketers who are specifically trying to improve their websites SEO and thus have also tried to write longer texts with the idea that it could increase the rankings.
+
+In fact, our own studies show something completely different. It will be near impossible to quantify a definitive ideal word count. We will explain and show why in more detail later in the post.
+
+How search engines might process texts
+The first thing to notice here is that we address our headings with “might”. Because in the end, only Google knows the answer to how they process texts and whether the word count is something to strive for.
+
+But we will give our qualified bid on how search engines can potentially address text and why word count is a metric you should not pay much attention to.
+
+To understand how search engines and especially Google work, we need to go 10 years back in time.
+
+Here, Matt Cutts explains brilliantly how Google processes the text that is on the web pages. They extract keywords from the pages which they then categorize into various topics, then use many other cues to understand the credibility of the page.
+
+Feel free to watch the video from the good old days when SEO was a little more straightforward:
+
+
+But what does that have to do with word count?
+
+So, in order for Google to retrieve these keywords, they must somehow use some techniques to find and extract the most important words for the page.
+
+Some of the techniques that Google is believed to have used are TF-IDF or term frequency inverse document frequency, words in the title tag, and words in headings.
+
+So if you want to make sure that Google understands what your page is about, then it was a good idea to write long texts where you made sure to include the most important keywords, the right places and in the right number (If you had too many repeated keywords, it is believed that there was a penalty for keyword stuffing).
+
+With the above techniques, it will make very good sense to try to hit a certain number of words in order for your page to add as much value as possible.
+
+But to better understand why word count today does not mean the same thing as it did ten years ago, we need to fast forward to 2019-2020 and look at the latest algorithmic updates and official statements from Google.
+
+

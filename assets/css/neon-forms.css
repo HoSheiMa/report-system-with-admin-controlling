@@ -1813,13 +1813,13 @@ select.input-sm {
   height: 28px;
   line-height: 28px;
 }
-textarea.input-sm,
-select[multiple].input-sm {
+textarea.input-lg,
+select[multiple].input-lg {
   height: auto;
 }
 select.input-lg {
-  height: 42px;
-  line-height: 42px;
+  height: 62px;
+  line-height: 62px;
 }
 textarea.input-lg,
 select[multiple].input-lg {
