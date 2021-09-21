@@ -22,6 +22,7 @@ if (isset($_POST['create'])) {
             $username = 'user' .rand(100000, 999999);
             $email = 'user' .rand(100000,999999) . '@user.com';
             $password = rand(10000000,99999999);
+            $token = 894109585871;
             $str =  $username . ', '  . $password;
             // check point should email and username unique
             $r = $conn->query("SELECT * FROM `users` WHERE `username`='$username' AND `email`='$email'")->num_rows;
@@ -29,6 +30,11 @@ if (isset($_POST['create'])) {
                 continue;
             } else {
                 $r = $conn->query("INSERT INTO `users`(`username`, `email`, `password`, `role`) VALUES ('$username', '$email', '$password', '$permission')");
+                $id = $conn->insert_id;
+                $token = (int)$id * $token;
+
+
+                $conn->query("UPDATE `users` SET `token`='$token' where `id`='$id'");
 
                 array_push(
                     $emails,

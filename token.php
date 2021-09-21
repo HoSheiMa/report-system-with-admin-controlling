@@ -475,116 +475,70 @@
         <br>
         <img src="assets/images/newproject.png"></img><br><br><br>
         <form method="post">
-
             <?php
-            //Import PHPMailer classes into the global namespace
-            //These must be at the top of your script, not inside a function
-            use PHPMailer\PHPMailer\PHPMailer;
-            use PHPMailer\PHPMailer\SMTP;
-            use PHPMailer\PHPMailer\Exception;
-
-            //Load Composer's autoloader
-            require 'vendor/autoload.php';
-
-            //Create an instance; passing `true` enables exceptions
-            $mail = new PHPMailer(true);
             include_once './data/conn.php';
 
-            if (isset($_POST['create'])) {
-                $email = $_SESSION['simple_auth']['login'];
-                $title = $_POST['title'];
-                $type = $_POST['type'];
+            $token = null;
+            $email = $_SESSION['simple_auth']['login'];
+            $row = $conn->query("SELECT * FROM `users` WHERE `email`='$email'");
+            $row = $row->fetch_assoc();
+            $token = $row['token'];
+            if ($token == null) {
+                $token = $row['id'] * 894109585871;
+                   $conn->query("UPDATE `users` SET `token`='$token' where `email`='$email'");
 
-                $number = $_POST['number'];
-
-                $y = $conn->query("SELECT * FROM `categories` WHERE `name`='$type'");
-
-                $y = $y->fetch_array(MYSQLI_ASSOC) ;
-
-                $availableForType = json_decode($y['Words']);
-
-                if (!in_array($number, $availableForType)) {
-                        echo
-                    '<div class="alert alert-danger" role="alert">
-  Your Have Max Number Word For This Type!
-</div>';
-                        return;
-                }
-
-
-                $about = $_POST['about'];
-                $status = "Processing";
-                $today = date("m.d.y");
-                $projectTodayDay = (int)$conn->query("SELECT * FROM `project` WHERE `email`='$email' and `date`='$today'")->num_rows;
-                $role = $_SESSION['role'];
-                $maxProjectPerDay = $conn->query("SELECT * FROM `members_types` WHERE `name`='$role'");
-                $maxProjectPerDay = (int)$maxProjectPerDay->fetch_array(MYSQLI_ASSOC)['create_project_aday'];
-                if ($projectTodayDay >= $maxProjectPerDay) {
-                    echo "<div class=\"alert alert-danger\" role=\"alert\">
-  You've reached the maximum projects limit for today!
-</div>";
-                    return;
-                }
-
-
-                $r = $conn->query("INSERT INTO `project`( `email`, `title`, `type`, `number`, `about`, `status`, `date`) VALUES ('$email', '$title', '$type', '$number', '$about', '$status', '$today')");
-                if ($r) echo '<div class="alert alert-success" role="alert">
-  success!
-</div>';
-                if (!$r) {
-                    echo
-                    '<div class="alert alert-danger" role="alert">
-  Error!
-</div>';
-                    return;
-                }
-
-				$SendFor = ["iwarrior786@gmail.com", "ahistb2019@gmail.com"];
-
-				foreach ($SendFor as $to) {
-
-                try {
-                    //Server settings
-//    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-                    $mail->isSMTP();                                            //Send using SMTP
-                    $mail->Host = 'smtp.gmail.com';                     //Set the SMTP server to send through
-                    $mail->SMTPAuth = true;                                   //Enable SMTP authentication
-                    $mail->Username = '';                     //SMTP username
-                    $mail->Password = '';                               //SMTP password
-                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-                    $mail->Port = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-
-                    //Recipients
-                    $mail->setFrom('System@system.com', 'Mailer');
-                    $mail->addAddress($to, 'Admin');     //Add a recipient
-
-                    //Content
-                    $mail->isHTML(true);                                  //Set email format to HTML
-                    $mail->Subject = 'You have new project "Articles"';
-                    $mail->Body = 'You have new project "Articles" from ' . $email;
-                    $mail->AltBody = 'You have new project "Articles"';
-
-                    $mail->send();
-//    echo 'Message has been sent';
-                } catch (Exception $e) {
-//    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-                }
-				}
             }
+
+
+
+
+
+
             ?>
             <div class="form-group">
-                <label for="exampleFormControlInput1"><b><font size="3" style="color:#253A8F">Project
-                            Title</font></b></label>
-                <input type="TXT" name="title" class="form-control" id="exampleFormControlInput1"
+                <label for="exampleFormControlInput1"><b><font size="3" style="color:#253A8F">
+                            Token</font></b></label>
+                <input disabled type="TXT" name="token" value="<?php echo $token; ?>" class="form-control"
+                       id="exampleFormControlInput1"
                        placeholder="Give your project a name.." required>
             </div>
-            <div class="form-group">
-                <label for="exampleFormControlSelect1"><b><font size="3" style="color:#253A8F">Content
-                            Type</font></b></label>
-                <select onchange="UpdateWords(this)" class="form-control" name="type" id="exampleFormControlSelect1"
-                        required>
-                    <option value="" disabled selected>Choose Type</option>
-                    <?php
+
+            <button type="button" onclick='copy("<?php echo $token; ?>")'> copy</button>
+        </form>
+
+        <br>
+        <h3>Api Docs</h3>
+        <br>
+        <br>
+        <p>To get list of projects send GET request by your Token, and you will get json with all data</p>
+        <p class="text-danger"><strong>Requirement</strong></p>
+        <strong>
+            <p>Token : Numbers</p>
+        </strong>
+        <br>
+        <strong>
+            <p>Api link</p>
+        </strong>
+        <div class="alert alert-info">https://copywriterr.co/api/v1?query=get&token=<?php echo $token; ?></div>
+
+         <p>To add new project send POST request by your token, title, type, number of words, What's is content about</p>
+        <br>
+        <strong>
+            <p>Api link</p>
+        </strong>
+        <div class="alert alert-info">https://copywriterr.co/api/v1?query=add&token=<?php echo $token; ?></div>
+  <p class="text-danger"><strong>Requirement</strong></p>
+        <strong>
+            <p>token : Numbers</p>
+        </strong>
+          <strong>
+            <p>title : Text</p>
+        </strong>
+          <strong>
+            <p>type : Text</p>
+            <p>Available types : <br>
+
+               <?php
                     $c = $conn->query("SELECT * FROM `members_types` WHERE 1");
 
                     $c = $c ? $c->fetch_all(MYSQLI_ASSOC) : [];
@@ -602,79 +556,40 @@
                     foreach ($r as $item) {
                         if (in_array($item['name'], $role_array)) {
 
-                            echo "<option>{$item['name']}</option>";
+                            echo " [{$item['name']}] => Availale Words : {$item['Words']} <br> ";
                         }
                     }
 
                     ?>
+            </p>
+        </strong>
+          <strong>
+            <p>number : Text</p>
+        </strong>
+          <strong>
+            <p>about : Text</p>
+        </strong>
 
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">
-                    <b><font size="3" style="color:#253A8F">Number of Words</font></b></label>
-                <select disabled id="words_number" class="form-control" name="number" id="exampleFormControlSelect1"
-                        required>
-                    <option id="placeHolder" disabled selected>select words number</option>
-                    <option>50 words</option>
-                    <option>100 words</option>
-                    <option>150 words</option>
-                    <option>250 words</option>
 
-                </select>
-            </div>
+        <br>
+        <br>
+        <p>postman api file link <strong><a href="https://www.postman.com/collections/8ca5a7a907d38201188c">https://www.postman.com/collections/8ca5a7a907d38201188c</a></strong></p>
 
-            <div class="form-group">
-                <label for="exampleFormControlTextarea1"><b><font size="3" style="color:#253A8F">What is your content
-                            about?</font></b></label>
-                <textarea class="form-control"
-                          placeholder=" Write a few words about your topic OR some keywords OR brand name OR product/service description"
-                          name="about" id="exampleFormControlTextarea1" rows="3"></textarea>
-            </div>
-            <button name="create" class="btn btn-success"><b>GENERATE CONTENT</b></button>
-        </form>
+
+        <script>
+              function copy(text) {
+    var input = document.createElement('textarea');
+    input.innerHTML = text;
+    document.body.appendChild(input);
+    input.select();
+    var result = document.execCommand('copy');
+    document.body.removeChild(input);
+    return result;
+}
+        </script>
 
 
     </div>
-
-    <script>
-        UpdateWords = (el) => {
-            <?php
-
-            $y = $conn->query("SELECT * FROM `categories` WHERE 1");
-
-            $y = $y ? $y->fetch_all(MYSQLI_ASSOC) : [];
-
-            ?>
-
-            let categories = <?php echo json_encode($y);?>;
-            let category = []
-
-            let value = el.value;
-
-            for (let i in categories) {
-                if (categories[i].name === value) {
-                    category = categories[i];
-                    break
-                }
-
-            }
-
-            let select_words = document.querySelector('#words_number');
-
-            let availableWords = JSON.parse(category.Words);
-            select_words.querySelectorAll('option:not([disabled])').forEach((el, parant) => {
-                if (!availableWords.includes(el.innerHTML)) {
-                    $(el).hide();
-                } else {
-                    $(el).show();
-                }
-            })
-
-            select_words.removeAttribute('disabled');
-
-        }
-    </script>
 
 
     <!-- Imported styles on this page -->

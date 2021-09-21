@@ -512,12 +512,28 @@
 
 
 
-
-            $r = $conn->query("SELECT *, COUNT(*) as total FROM `project`  GROUP BY `email` ORDER BY `total` desc");
+            $list = [];
+            $r = $conn->query("SELECT *FROM `project`");
 
             $r = $r ? $r->fetch_all(MYSQLI_ASSOC) : [];
-
             foreach ($r as $item) {
+                if (empty($list[$item['email']])) {
+                    $list[$item['email']] = $item;
+                    $list[$item['email']]['total']= 1;
+                } else {
+                    $list[$item['email']]['total'] += 1;
+                }
+            }
+            function cmp($a, $b)
+{
+    if ($a['total'] == $b['total']) {
+        return 0;
+    }
+    return ($a['total'] < $b['total']) ? 1 : -1;
+}
+usort($list, "cmp");
+
+            foreach ($list as $item) {
 
 
                 echo "<tr>

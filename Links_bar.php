@@ -105,6 +105,12 @@
                             <span class="title"><b>Generate Users</b></span>
                         </a>
                     </li>
+                     <li>
+                        <a href="token.php">
+                            <i class="entypo-menu"></i>
+                            <span class="title"><b>Api Token</b></span>
+                        </a>
+                    </li>
                     <?php
                 }
                 ?>
