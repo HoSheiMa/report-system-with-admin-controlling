@@ -480,9 +480,51 @@
         <img src="assets/images/manage.png"></img>
         <br><br><Br>
         <?php
+        include_once './data/conn.php';
+
+            $email = $_SESSION['simple_auth']['login'];
+            $extra = "";
+
+            if (isset($_POST['update'])) {
+                $id = $_POST['id'];
+                $comment = $_POST['comment'];
+                $comment = str_replace('"', "'",$comment );
+
+
+                $conn->query("UPDATE `project` SET `status`='Completed', `comment`=\"{$comment}\" WHERE `id`='{$id}' ");
+            }
+
+
+            if ($role == "admin") {
+                $extra = " `status`='Processing'";
+
+            } else {
+                $extra = "`email`='$email'";
+            }
+
+
+            $r = $conn->query("SELECT * FROM `project` WHERE $extra  order by id desc");
+
+            $r = $r ? $r->fetch_all(MYSQLI_ASSOC) : [];
         $filter = "All";
         if (isset($_POST['filter_btn'])) {
             $filter = $_POST['type'];
+        }
+
+        if (isset($_POST['delete'])) {
+            $id = $_POST['id'];
+
+            $conn->query("DELETE FROM `project` WHERE `id`='{$id}'");
+        }
+
+        $filter_list = '';
+        $filter_list_names = [];
+        foreach ($r as $item) {
+            if(!in_array($item['type'], $filter_list_names)){
+                array_push($filter_list_names, $item['type']);
+                $filter_list .= " <option>{$item['type']}</option>";
+            }
+
         }
         ?>
         <form action="" method="post">
@@ -490,19 +532,16 @@
                 <label for="exampleFormControlSelect1"><b>Project Type</b></label>
                 <select class="form-control" name="type" id="exampleFormControlSelect1">
                     <option>All</option>
-                    <option>Article</option>
-                    <option>Blog Post</option>
-                    <option>Website Content</option>
-                    <option>Essay</option>
-                    <option>Press Release Intro</option>
-                    <option>Hashtags</option>
-                    <option>Product Description</option>
-                    <option>Website Meta Descriptions</option>
-                    <option>Youtube Video Description</option>
+                    <?php echo $filter_list; ?>
                 </select>
                 <button name="filter_btn" style="margin-top: 3px">Filter Projects</button>
             </div>
         </form>
+        <div class="p-2 ">
+            <label>Search:
+                <input onchange="SearchByContent(this)" type="text" class="form-control" placeholder="search by keyword" />
+            </label>
+        </div>
 
         <table class="table">
             <thead>
@@ -526,31 +565,6 @@
             <tbody>
 
             <?php
-            include_once './data/conn.php';
-            $email = $_SESSION['simple_auth']['login'];
-            $extra = "";
-
-            if (isset($_POST['update'])) {
-                $id = $_POST['id'];
-                $comment = $_POST['comment'];
-                $comment = str_replace('"', "'",$comment );
-
-
-                $conn->query("UPDATE `project` SET `status`='Completed', `comment`=\"{$comment}\" WHERE `id`='{$id}' ");
-            }
-
-
-            if ($role == "admin") {
-                $extra = " `status`='Processing'";
-
-            } else {
-                $extra = "`email`='$email'";
-            }
-
-
-            $r = $conn->query("SELECT * FROM `project` WHERE $extra");
-
-            $r = $r ? $r->fetch_all(MYSQLI_ASSOC) : [];
 
             foreach ($r as $item) {
                 $approve = '';
@@ -561,7 +575,7 @@
                 }
                 if ($item['status'] == "Processing" && $role == "admin") {
                     $approve = "  <form action='' style='
-    display: inline-block' method='post'>      
+    display: inline-block;margin-bottom : 6px' method='post'>      
                           <input type='hidden' name='id' value=\"{$item['id']}\">
                           <input type='hidden' name='comment' value=\"{$item['id']}\">
                           <textarea name='' id='' cols='30' rows='10' style='display: none'>{$item['about']}</textarea>
@@ -578,7 +592,7 @@
                           <button type='submit' name='download' class='btn btn-info'>Download Content</button> </form>";
 
                 $download = $role === "admin" ? $download : (($item['status'] == "Completed") ? $download : '');
-                echo "<tr>
+                echo "<tr about='{$item['about']}'>
       <th scope='row'>{$item['id']}</th>
       <td>{$item['title']}</td>
       {$emailShown}
@@ -591,7 +605,15 @@
                           
                            {$approve}
                            {$download}
+                           
+                           <form action='' method='post'>
+                           <input type='hidden'  name='id' value='{$item['id']}'>
+                           <button name='delete' class='btn btn-danger d-block ' style='margin-top : 6px'>Delete</button>
                         
+</form>
+
+                           <button onclick=\"view('{$item['title']}', '{$item['type']}', '{$item['about']}', '{$item['number']}')\" class='btn btn-default d-block ' style='margin-top : 6px'>View</button>
+
 
 </td>
     </tr>";
@@ -607,6 +629,54 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
     <script>
+        function  SearchByContent (el) {
+            v = el.value;
+
+            if (v) {
+                document.querySelectorAll('tbody tr').forEach((e) => {
+                    if (!(e.getAttribute('about')).includes(v)) {
+                        $(e).hide()
+                    } else {
+                        $(e).show();
+                    }
+                })
+            } else {
+                document.querySelectorAll('tbody tr').forEach((e) => { $(e).show()})
+            }
+
+        }
+
+        function  view(title, type, content, number) {
+            $.confirm({
+    title: 'View info!',
+    content: '' +
+    '<form action="" class="formName" xmlns="http://www.w3.org/1999/html">' +
+    '<div class="form-group">' +
+    '<label>Title</label>' +
+    `<input type="text" disabled value="${title}" placeholder="Your name" class="name form-control" required />` +
+    '</div>' +
+        '<div class="form-group">' +
+    '<label>Type</label>' +
+    `<input type="text" disabled value="${type}" placeholder="Your name" class="name form-control" required />` +
+    '</div>' +
+        '<div class="form-group">' +
+    '<label> Number of Words </label>' +
+    `<input type="text" disabled value="${number}" placeholder="Your name" class="name form-control" required />` +
+    '</div>' +
+         '</div>' +
+        '<div class="form-group">' +
+    '<label> User Input</label>' +
+    `<textarea type="text" disabled placeholder="Your name" class="name form-control" required >${content}</textarea>` +
+    '</div>' +
+    '</form>',
+    buttons: {
+
+        close: function () {
+            //close
+        },
+    },
+});
+        }
         function copy(text) {
     var input = document.createElement('textarea');
     input.innerHTML = text;
